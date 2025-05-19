@@ -1,4 +1,4 @@
-name: Extract and Translate Content
+name: Eate Content
 
 on:
   workflow_dispatch:
