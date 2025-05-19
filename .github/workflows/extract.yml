@@ -92,7 +92,7 @@ jobs:
         run: |
           python step3_gpt_process.py \
             --context translatable_flat_sentences.json \
-            --translated translations.json \
+            --translated segments_only.json \
             --api-key "$OPENAI_API_KEY" \
             --primary-lang "${{ github.event.inputs.lang }}" \
             --target-lang "${{ github.event.inputs.target_lang }}" \
