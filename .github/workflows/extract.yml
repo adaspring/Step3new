@@ -114,3 +114,4 @@ jobs:
             gpt_input.txt
             gpt_raw_*.txt
             openai_translations_*.json
+            gpt_processed.txt
