@@ -120,7 +120,7 @@ def parse_gpt_output(gpt_output_file, target_lang):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="GPT Translation Processor")
     parser.add_argument("--context", required=True, help="translatable_flat_sentences.json")
-    parser.add_argument("--translated", required=True, help="translations.json")
+    parser.add_argument("--translated", required=True, help="segments_only.json")
     parser.add_argument("--output", default="gpt_processed.txt")
     parser.add_argument("--api-key", required=True)
     parser.add_argument("--primary-lang", required=True)
