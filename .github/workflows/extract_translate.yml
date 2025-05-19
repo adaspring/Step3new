@@ -121,7 +121,7 @@ jobs:
           python step3_gpt_process.py \
             --context translatable_flat_sentences.json \
             --translated translations.json \
-            --output improved_translations.txt \
+            --output openai_translations.json\
             --api-key "$OPENAI_API_KEY" \
             --primary-lang "${{ github.event.inputs.lang }}" \
             --secondary-lang "${{ github.event.inputs.secondary_lang }}" \
@@ -142,6 +142,6 @@ jobs:
             translations.json
             segments_only.json
             gpt_input.txt
-            improved_translations.txt
+            openai_translations.json
             gpt_processed.txt
             
