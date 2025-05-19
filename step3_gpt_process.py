@@ -29,10 +29,47 @@ def build_gpt_friendly_input(context_file, translated_file, output_file, target_
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write('\n'.join(lines))
 
+
+def parse_improved_translations(input_file):
+    """Convert GPT's text output to translation JSON"""
+    translation_map = {}
+    
+    with open(input_file, 'r', encoding='utf-8') as f:
+        entries = f.read().split("\n\n")
+    
+    for entry in entries:
+        lines = entry.strip().split('\n')
+        if len(lines) < 3: continue
+        
+        block_line = lines[0]
+        target_line = lines[-1]
+        
+        if not block_line.startswith("BLOCK_"): continue
+        if ":" not in target_line: continue
+        
+        block_id = block_line.split(' | ')[0]
+        translated_text = target_line.split(": ", 1)[1]
+        translation_map[block_id] = translated_text
+    
+    return translation_map
+
+# Modified process_with_api
+def process_with_api(input_file, output_file, api_key, args, max_retries=3):
+    # ... existing API processing ...
+    
+    # After API calls:
+
 def process_with_api(input_file, output_file, api_key, args, max_retries=3):
     """Process translations with dynamic language validation"""
     client = openai.OpenAI(api_key=api_key)
+
+    json_output = output_file.replace('.txt', '.json')
+    translation_map = parse_improved_translations(output_file)
+    with open(json_output, 'w', encoding='utf-8') as f:
+        json.dump(translation_map, f, indent=2, ensure_ascii=False)
     
+    print(f"✅ Final translations saved to {json_output}")
+
     with open(input_file, 'r', encoding='utf-8') as f:
         content = f.read().split("\n\n")
     
