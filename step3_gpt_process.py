@@ -53,11 +53,6 @@ def parse_improved_translations(input_file):
     
     return translation_map
 
-# Modified process_with_api
-def process_with_api(input_file, output_file, api_key, args, max_retries=3):
-    # ... existing API processing ...
-    
-    # After API calls:
 
 def process_with_api(input_file, output_file, api_key, args, max_retries=3):
     """Process translations with dynamic language validation"""
