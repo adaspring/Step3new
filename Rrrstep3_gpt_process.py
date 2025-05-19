@@ -27,7 +27,7 @@ def build_gpt_friendly_input(context_file, translated_file, output_file, target_
             for key, source_text in entry.items():
                 if key == 'tag': continue
                 translated_text = translated_map.get(key, "")
-                tag = entry['tag'].strip('<>')
+                tag = entry['tag']
                 
                 # Validation
                 if not key.startswith("BLOCK_"):
@@ -35,7 +35,7 @@ def build_gpt_friendly_input(context_file, translated_file, output_file, target_
                 if "<" not in tag or ">" not in tag:
                     raise ValueError(f"Malformed tag: {tag} for {key}")
                 
-                lines.append(f"{key} | <{tag}>")
+                lines.append(f"{key} | {tag}")
                 lines.append(f"{args.primary_lang}: {source_text}")
                 lines.append(f"{target_lang}: {translated_text}")
                 lines.append("")
