@@ -50,7 +50,8 @@ on:
 
 env:
   DEEPL_AUTH_KEY: ${{ secrets.DEEPL_AUTH_KEY }}
-
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  
 jobs:
   extract_and_translate:
     runs-on: ubuntu-latest
@@ -70,7 +71,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install beautifulsoup4 spacy html5lib regex pypinyin langdetect deepl
+          pip install beautifulsoup4 spacy html5lib regex pypinyin langdetect deepl openai
           python -m spacy download en_core_web_sm
           python -m spacy download zh_core_web_sm
           python -m spacy download fr_core_news_sm
@@ -114,7 +115,20 @@ jobs:
              --secondary-lang "${{ github.event.inputs.secondary_lang }}"
           fi
 
-    
+        # Step 3: GPT Processing
+      - name: Run GPT refinement (Step 3)
+        run: |
+          python step3_gpt_process.py \
+            --context translatable_flat_sentences.json \
+            --translated translations.json \
+            --output improved_translations.txt \
+            --api-key "$OPENAI_API_KEY" \
+            --primary-lang "${{ github.event.inputs.lang }}" \
+            --secondary-lang "${{ github.event.inputs.secondary_lang }}" \
+            --target-lang "${{ github.event.inputs.target_lang }}"
+
+
+      
       # Upload all artifacts
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -127,4 +141,7 @@ jobs:
             non_translatable.html
             translations.json
             segments_only.json
+            gpt_input.txt
+            improved_translations.txt
+            gpt_processed.txt
             
