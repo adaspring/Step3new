@@ -84,17 +84,17 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     # Generate GPT-ready input
-    intermediate_file = "gpt_input.txt"
     build_gpt_friendly_input(
         args.context,
         args.translated,
-        intermediate_file,
+        gpt_input.txt,
+        args.primary_lang,
         args.target_lang
     )
     
     # Process with API
     process_with_api(
-        intermediate_file,
+        gpt_input.txt,
         args.output,
         args.api_key,
         args
